@@ -1,0 +1,9 @@
+{
+  "name": "nsn-cap-whatsapp-bot",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Bot WhatsApp SIRR EXPLORER — 7 piliers, QCM, programme soft skills.",
+  "engines": {
+    "node": ">=18"
+  }
+}
