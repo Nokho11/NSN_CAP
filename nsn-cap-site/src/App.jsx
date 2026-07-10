@@ -4,6 +4,7 @@ import {
   MessageCircle, CheckCircle2, Circle, ChevronRight, Check,
   ClipboardList, RotateCcw, Zap, ListChecks, ArrowLeft, Star, TrendingDown,
   GraduationCap, Quote, Shuffle,
+  Globe, Palette, Server, Megaphone, FileText, Receipt, Landmark, Info, CalendarCheck, Briefcase,
 } from "lucide-react";
 
 const NAVY = "#1A1A2E";
@@ -98,361 +99,6 @@ const MODULES = [
   },
 ];
 
-// ---------- Test de personnalité : Big Five simplifié (rapide 20Q / complet 50Q) ----------
-const TRAITS = {
-  extraversion: {
-    label: "Extraversion",
-    desc: "Ton énergie sociale : aisance en groupe, prise de parole, goût pour les nouvelles rencontres.",
-    module: "Le Pilier 3 (Intelligence Relationnelle) t'aide à mieux lire les situations sociales.",
-  },
-  conscience: {
-    label: "Conscienciosité",
-    desc: "Ton sens de l'organisation, de la discipline et du respect de tes engagements.",
-    module: "Le Pilier 5 (Performance Durable) est fait pour renforcer cet atout.",
-  },
-  ouverture: {
-    label: "Ouverture d'esprit",
-    desc: "Ta curiosité intellectuelle et ton goût pour la nouveauté et la créativité.",
-    module: "Le Pilier 2 (Le Potentiel en Action) nourrit directement cette dimension.",
-  },
-  agreabilite: {
-    label: "Agréabilité",
-    desc: "Ta capacité à coopérer, faire confiance et te montrer empathique avec les autres.",
-    module: "Le Pilier 3 (Intelligence Relationnelle) renforce aussi cette dimension relationnelle.",
-  },
-  stabilite: {
-    label: "Stabilité émotionnelle",
-    desc: "Ta capacité à rester calme et à gérer le stress face aux difficultés.",
-    module: "Le Pilier 1 (L'Identité Personnelle) t'aide à ancrer ta confiance dans tes propres valeurs.",
-  },
-};
-
-const ARCHETYPES = {
-  extraversion: {
-    title: "Le Commandant",
-    tagline: "Tu mènes par l'énergie et la prise de parole.",
-  },
-  conscience: {
-    title: "Le Stratège",
-    tagline: "Tu avances par la structure, la discipline et la méthode.",
-  },
-  ouverture: {
-    title: "Le Visionnaire",
-    tagline: "Tu avances par la curiosité et l'exploration de nouvelles idées.",
-  },
-  agreabilite: {
-    title: "Le Fédérateur",
-    tagline: "Tu avances par l'écoute, la confiance et la relation humaine.",
-  },
-  stabilite: {
-    title: "Le Gardien",
-    tagline: "Tu avances avec calme, ancrage, et une gestion maîtrisée du stress.",
-  },
-};
-
-const LIKERT = [
-  { v: 1, label: "Pas du tout d'accord" },
-  { v: 2, label: "Peu d'accord" },
-  { v: 3, label: "Neutre" },
-  { v: 4, label: "D'accord" },
-  { v: 5, label: "Tout à fait d'accord" },
-];
-
-const QUICK_QUESTIONS = [
-  { trait: "extraversion", text: "J'aime parler avec de nouvelles personnes" },
-  { trait: "extraversion", text: "Je me sens énergisé(e) en groupe" },
-  { trait: "extraversion", text: "Je préfère les activités sociales aux activités seules" },
-  { trait: "extraversion", text: "Je prends facilement la parole en public" },
-  { trait: "conscience", text: "Je suis une personne organisée" },
-  { trait: "conscience", text: "Je respecte toujours mes engagements" },
-  { trait: "conscience", text: "Je travaille de façon structurée et planifiée" },
-  { trait: "conscience", text: "Je fais attention aux délais et aux détails" },
-  { trait: "ouverture", text: "J'aime découvrir de nouvelles idées" },
-  { trait: "ouverture", text: "Je suis curieux(se) intellectuellement" },
-  { trait: "ouverture", text: "J'aime l'art, la musique ou la créativité" },
-  { trait: "ouverture", text: "J'accepte facilement les différences culturelles" },
-  { trait: "agreabilite", text: "J'aide facilement les autres quand ils en ont besoin" },
-  { trait: "agreabilite", text: "J'évite les conflits autant que possible" },
-  { trait: "agreabilite", text: "Je fais facilement confiance aux gens" },
-  { trait: "agreabilite", text: "Je suis empathique envers les autres" },
-  { trait: "stabilite", text: "Je reste calme même sous pression" },
-  { trait: "stabilite", text: "Je m'inquiète souvent pour des choses", reverse: true },
-  { trait: "stabilite", text: "Je me sens facilement dépassé(e) par les problèmes", reverse: true },
-  { trait: "stabilite", text: "Je gère bien mes émotions dans les situations difficiles" },
-];
-
-const FULL_QUESTIONS = [
-  { trait: "extraversion", text: "J'aime être entouré(e) de beaucoup de gens" },
-  { trait: "extraversion", text: "Je parle facilement avec des inconnus" },
-  { trait: "extraversion", text: "Je me sens énergisé(e) en groupe" },
-  { trait: "extraversion", text: "J'aime être au centre de l'attention" },
-  { trait: "extraversion", text: "Je participe activement aux conversations" },
-  { trait: "extraversion", text: "Je préfère les activités sociales aux activités seules" },
-  { trait: "extraversion", text: "Je prends facilement la parole en public" },
-  { trait: "extraversion", text: "Je suis à l'aise dans les événements sociaux" },
-  { trait: "extraversion", text: "Je fais facilement des nouvelles rencontres" },
-  { trait: "extraversion", text: "Je suis une personne très expressive" },
-  { trait: "conscience", text: "Je suis une personne très organisée" },
-  { trait: "conscience", text: "Je planifie mes tâches à l'avance" },
-  { trait: "conscience", text: "Je respecte toujours mes engagements" },
-  { trait: "conscience", text: "Je termine ce que je commence" },
-  { trait: "conscience", text: "Je travaille de manière structurée" },
-  { trait: "conscience", text: "Je fais attention aux détails" },
-  { trait: "conscience", text: "Je respecte les délais facilement" },
-  { trait: "conscience", text: "Je suis discipliné(e) dans mon travail" },
-  { trait: "conscience", text: "Je garde mes affaires en ordre" },
-  { trait: "conscience", text: "Je réfléchis avant d'agir" },
-  { trait: "ouverture", text: "J'aime découvrir de nouvelles idées" },
-  { trait: "ouverture", text: "Je suis curieux(se) intellectuellement" },
-  { trait: "ouverture", text: "J'aime apprendre des choses nouvelles" },
-  { trait: "ouverture", text: "Je m'intéresse à plusieurs domaines" },
-  { trait: "ouverture", text: "J'aime les activités créatives" },
-  { trait: "ouverture", text: "J'aime la musique, l'art ou la culture" },
-  { trait: "ouverture", text: "J'aime essayer de nouvelles expériences" },
-  { trait: "ouverture", text: "Je suis ouvert(e) aux opinions différentes" },
-  { trait: "ouverture", text: "J'aime réfléchir à des idées complexes" },
-  { trait: "ouverture", text: "J'aime sortir de ma routine" },
-  { trait: "agreabilite", text: "J'aime aider les autres" },
-  { trait: "agreabilite", text: "Je suis une personne gentille" },
-  { trait: "agreabilite", text: "J'évite les conflits" },
-  { trait: "agreabilite", text: "Je fais facilement confiance aux autres" },
-  { trait: "agreabilite", text: "Je suis à l'écoute des autres" },
-  { trait: "agreabilite", text: "Je ressens de l'empathie facilement" },
-  { trait: "agreabilite", text: "Je pardonne facilement" },
-  { trait: "agreabilite", text: "Je coopère bien avec les autres" },
-  { trait: "agreabilite", text: "Je pense aux besoins des autres" },
-  { trait: "agreabilite", text: "Je suis une personne compréhensive" },
-  { trait: "stabilite", text: "Je reste calme dans les situations difficiles" },
-  { trait: "stabilite", text: "Je gère bien mon stress" },
-  { trait: "stabilite", text: "Je m'inquiète souvent", reverse: true },
-  { trait: "stabilite", text: "Je me sens parfois dépassé(e) par les problèmes", reverse: true },
-  { trait: "stabilite", text: "Je garde mon sang-froid facilement" },
-  { trait: "stabilite", text: "Mes émotions changent facilement", reverse: true },
-  { trait: "stabilite", text: "Je suis sensible au stress", reverse: true },
-  { trait: "stabilite", text: "Je récupère vite après un problème" },
-  { trait: "stabilite", text: "Je me sens généralement stable émotionnellement" },
-  { trait: "stabilite", text: "Je garde une attitude positive face aux difficultés" },
-];
-
-function computeScores(questions, values) {
-  const sums = {};
-  const counts = {};
-  questions.forEach((q, i) => {
-    const raw = values[i];
-    if (raw === undefined) return;
-    const v = q.reverse ? 6 - raw : raw;
-    sums[q.trait] = (sums[q.trait] || 0) + v;
-    counts[q.trait] = (counts[q.trait] || 0) + 1;
-  });
-  const scores = {};
-  Object.keys(TRAITS).forEach((t) => {
-    scores[t] = counts[t] ? sums[t] / counts[t] : 0;
-  });
-  return scores;
-}
-
-function PersonalityTest() {
-  const [mode, setMode] = useState(null); // 'quick' | 'full'
-  const [step, setStep] = useState(0);
-  const [values, setValues] = useState({});
-  const [result, setResult] = useState(null);
-
-  const questions = mode === "quick" ? QUICK_QUESTIONS : FULL_QUESTIONS;
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const saved = await storage.get("nsn-cap:personality-result");
-        if (saved && saved.value) {
-          const data = JSON.parse(saved.value);
-          if (data.mode && data.result) {
-            setMode(data.mode);
-            setResult(data.result);
-          }
-        }
-      } catch (e) {
-        // pas de résultat sauvegardé
-      }
-    })();
-  }, []);
-
-  const start = (m) => {
-    setMode(m);
-    setStep(0);
-    setValues({});
-    setResult(null);
-  };
-
-  const answer = (v) => {
-    const next = { ...values, [step]: v };
-    setValues(next);
-    if (step + 1 < questions.length) {
-      setStep(step + 1);
-    } else {
-      const scores = computeScores(questions, next);
-      setResult(scores);
-      storage
-        .set("nsn-cap:personality-result", JSON.stringify({ mode, result: scores }))
-        .catch(() => {});
-    }
-  };
-
-  const goBack = () => {
-    if (step > 0) setStep(step - 1);
-    else setMode(null);
-  };
-
-  const restart = () => {
-    setStep(0);
-    setValues({});
-    setResult(null);
-  };
-
-  // ---- Selection screen ----
-  if (!mode) {
-    return (
-      <div className="h-full flex flex-col items-center justify-center gap-4 p-8" style={{ backgroundColor: NAVY }}>
-        <div className="text-xs uppercase tracking-widest" style={{ color: GOLD }}>Test de personnalité — Big Five simplifié</div>
-        <div className="text-white text-lg font-semibold text-center max-w-md">Choisis le format qui te convient</div>
-        <div className="grid sm:grid-cols-2 gap-3 w-full max-w-xl mt-2">
-          <button
-            onClick={() => start("quick")}
-            className="flex flex-col items-start gap-2 p-5 rounded-xl border text-left transition-colors hover:border-[#C9A84C]"
-            style={{ backgroundColor: "#22233A", borderColor: "#33344F" }}
-          >
-            <Zap size={20} style={{ color: GOLD }} />
-            <div className="text-white font-semibold">Test rapide</div>
-            <div className="text-white/50 text-xs">20 questions — environ 3 minutes</div>
-          </button>
-          <button
-            onClick={() => start("full")}
-            className="flex flex-col items-start gap-2 p-5 rounded-xl border text-left transition-colors hover:border-[#C9A84C]"
-            style={{ backgroundColor: "#22233A", borderColor: "#33344F" }}
-          >
-            <ListChecks size={20} style={{ color: GOLD }} />
-            <div className="text-white font-semibold">Test complet</div>
-            <div className="text-white/50 text-xs">50 questions — environ 10 minutes</div>
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  // ---- Results screen ----
-  if (result) {
-    const entries = Object.entries(result);
-    const strongest = entries.reduce((a, b) => (b[1] > a[1] ? b : a));
-    const weakest = entries.reduce((a, b) => (b[1] < a[1] ? b : a));
-    const archetype = ARCHETYPES[strongest[0]];
-    return (
-      <div className="h-full overflow-y-auto p-6 sm:p-8 flex flex-col gap-4" style={{ backgroundColor: NAVY }}>
-        <div className="text-xs uppercase tracking-widest" style={{ color: GOLD }}>
-          Résultats — test {mode === "quick" ? "rapide (20Q)" : "complet (50Q)"}
-        </div>
-        <div className="flex items-center gap-3 -mt-1">
-          <div className="w-12 h-12 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: GOLD }}>
-            <Star size={20} color={NAVY} />
-          </div>
-          <div>
-            <div className="text-white text-2xl font-semibold leading-tight">Tu es {archetype.title}</div>
-            <div className="text-white/50 text-xs">{archetype.tagline}</div>
-          </div>
-        </div>
-        <div className="text-white/70 text-sm font-semibold mt-1">Ton profil Big Five en détail</div>
-
-        <div className="flex flex-col gap-3 mt-1">
-          {entries.map(([key, score]) => {
-            const pct = ((score - 1) / 4) * 100;
-            return (
-              <div key={key}>
-                <div className="flex justify-between text-xs mb-1">
-                  <span className="text-white/80 font-medium">{TRAITS[key].label}</span>
-                  <span className="text-white/40">{score.toFixed(1)} / 5</span>
-                </div>
-                <div className="w-full h-2 rounded-full bg-white/10 overflow-hidden">
-                  <div className="h-full rounded-full" style={{ width: `${pct}%`, backgroundColor: GOLD }} />
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        <div className="grid sm:grid-cols-2 gap-3 mt-2">
-          <div className="p-4 rounded-lg" style={{ backgroundColor: "#22233A" }}>
-            <div className="flex items-center gap-1.5 text-xs uppercase tracking-widest mb-1" style={{ color: GOLD }}>
-              <Star size={13} /> Point fort : {TRAITS[strongest[0]].label}
-            </div>
-            <div className="text-white/70 text-xs leading-relaxed">{TRAITS[strongest[0]].desc}</div>
-            <div className="text-xs mt-2" style={{ color: GOLD }}>{TRAITS[strongest[0]].module}</div>
-          </div>
-          <div className="p-4 rounded-lg" style={{ backgroundColor: "#22233A" }}>
-            <div className="flex items-center gap-1.5 text-xs uppercase tracking-widest mb-1" style={{ color: GOLD }}>
-              <TrendingDown size={13} /> Axe à muscler : {TRAITS[weakest[0]].label}
-            </div>
-            <div className="text-white/70 text-xs leading-relaxed">{TRAITS[weakest[0]].desc}</div>
-            <div className="text-xs mt-2" style={{ color: GOLD }}>{TRAITS[weakest[0]].module}</div>
-          </div>
-        </div>
-
-        <div className="flex gap-2 mt-2">
-          <button
-            onClick={restart}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium"
-            style={{ backgroundColor: "transparent", color: "white", border: "1px solid #55567A" }}
-          >
-            <RotateCcw size={14} /> Refaire ce test
-          </button>
-          <button
-            onClick={() => setMode(null)}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium"
-            style={{ backgroundColor: GOLD, color: NAVY }}
-          >
-            Changer de format
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  // ---- Question screen ----
-  const question = questions[step];
-  return (
-    <div className="h-full flex flex-col justify-center gap-5 p-8" style={{ backgroundColor: NAVY }}>
-      <div>
-        <div className="flex items-center justify-between text-xs uppercase tracking-widest mb-2" style={{ color: GOLD }}>
-          <button onClick={goBack} className="flex items-center gap-1 text-white/40 hover:text-white normal-case tracking-normal text-xs">
-            <ArrowLeft size={13} /> Retour
-          </button>
-          <span>Question {step + 1} / {questions.length}</span>
-        </div>
-        <div className="w-full h-1.5 rounded-full bg-white/10 overflow-hidden">
-          <div
-            className="h-full rounded-full transition-all"
-            style={{ width: `${(step / questions.length) * 100}%`, backgroundColor: GOLD }}
-          />
-        </div>
-      </div>
-      <div className="text-white text-lg font-semibold min-h-[3.5rem]">{question.text}</div>
-      <div className="flex flex-col gap-2">
-        {LIKERT.map((opt) => (
-          <button
-            key={opt.v}
-            onClick={() => answer(opt.v)}
-            className="flex items-center gap-3 text-left text-sm px-4 py-2.5 rounded-lg border border-[#33344F] text-white/90 hover:border-[#C9A84C] hover:bg-white/5 transition-colors"
-          >
-            <span
-              className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-semibold shrink-0"
-              style={{ backgroundColor: "#33344F", color: GOLD }}
-            >
-              {opt.v}
-            </span>
-            {opt.label}
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-}
 
 function useChatSequence(messages, onDone) {
   const [shown, setShown] = useState([]);
@@ -1175,6 +821,89 @@ function MotivationTab() {
   );
 }
 
+// ---------- NSN Business & NSN Admin : annuaire de services ----------
+// Numéro de contact WhatsApp pour les demandes de service — à remplacer par le vrai numéro pro.
+const NSN_CONTACT_NUMBER = "221000000000";
+
+function waLink(service) {
+  const text = encodeURIComponent(`Bonjour, je suis intéressé(e) par le service : ${service}.`);
+  return `https://wa.me/${NSN_CONTACT_NUMBER}?text=${text}`;
+}
+
+const BUSINESS_SERVICES = [
+  { icon: Globe, title: "Création de site web", desc: "Un site professionnel sur mesure, prêt à l'emploi en quelques jours." },
+  { icon: Palette, title: "Logo", desc: "Une identité visuelle forte, pensée pour ta marque." },
+  { icon: Server, title: "Hébergement", desc: "Ton site en ligne, disponible 24h/24, sans souci technique." },
+  { icon: Megaphone, title: "Marketing digital", desc: "Réseaux sociaux, publicité, visibilité — on s'occupe de tout." },
+  { icon: FileText, title: "Devis", desc: "Demande un devis personnalisé pour ton projet." },
+  { icon: Receipt, title: "Factures", desc: "Génère et gère tes factures professionnelles." },
+];
+
+const ADMIN_SERVICES = [
+  { icon: Landmark, title: "Démarches administratives", desc: "On t'accompagne dans tes démarches, pas à pas." },
+  { icon: ClipboardList, title: "Formulaires", desc: "Remplis tes formulaires sans stress, avec de l'aide." },
+  { icon: Info, title: "Explications", desc: "Comprends chaque étape en langage simple." },
+  { icon: CalendarCheck, title: "Prise de rendez-vous", desc: "Réserve un créneau avec un conseiller." },
+];
+
+function ServiceDirectory({ title, subtitle, services }) {
+  return (
+    <div className="h-full overflow-y-auto p-6 sm:p-8" style={{ backgroundColor: NAVY }}>
+      <div className="text-xs uppercase tracking-widest mb-1" style={{ color: GOLD }}>
+        {title}
+      </div>
+      <div className="text-white text-lg font-semibold mb-1">{subtitle}</div>
+      <div className="text-white/40 text-xs mb-5">
+        Choisis un service pour être mis en relation directement sur WhatsApp.
+      </div>
+      <div className="grid sm:grid-cols-2 gap-3">
+        {services.map((s, i) => {
+          const Icon = s.icon;
+          return (
+            <a
+              key={i}
+              href={waLink(s.title)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-col items-start gap-2 p-4 rounded-xl border text-left transition-colors hover:border-[#C9A84C]"
+              style={{ backgroundColor: "#22233A", borderColor: "#33344F" }}
+            >
+              <div className="w-9 h-9 rounded-full flex items-center justify-center" style={{ backgroundColor: GOLD }}>
+                <Icon size={16} color={NAVY} />
+              </div>
+              <div className="text-white font-semibold text-sm">{s.title}</div>
+              <div className="text-white/50 text-xs leading-relaxed">{s.desc}</div>
+              <span className="text-xs font-medium mt-1" style={{ color: GOLD }}>
+                Demander ce service →
+              </span>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function NSNBusiness() {
+  return (
+    <ServiceDirectory
+      title="NSN Business"
+      subtitle="Des services professionnels pour lancer et développer ton activité"
+      services={BUSINESS_SERVICES}
+    />
+  );
+}
+
+function NSNAdmin() {
+  return (
+    <ServiceDirectory
+      title="NSN Admin"
+      subtitle="De l'aide pour tes démarches administratives, sans stress"
+      services={ADMIN_SERVICES}
+    />
+  );
+}
+
 export default function App() {
   const [tab, setTab] = useState("motivation");
   const [moduleIndex, setModuleIndex] = useState(0);
@@ -1237,14 +966,24 @@ export default function App() {
               <Quote size={15} /> Motivation
             </button>
             <button
-              onClick={() => setTab("test")}
+              onClick={() => setTab("business")}
               className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium transition-colors"
               style={{
-                backgroundColor: tab === "test" ? NAVY : "transparent",
-                color: tab === "test" ? "white" : NAVY,
+                backgroundColor: tab === "business" ? NAVY : "transparent",
+                color: tab === "business" ? "white" : NAVY,
               }}
             >
-              <ClipboardList size={15} /> Test de personnalité
+              <Briefcase size={15} /> NSN Business
+            </button>
+            <button
+              onClick={() => setTab("admin")}
+              className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium transition-colors"
+              style={{
+                backgroundColor: tab === "admin" ? NAVY : "transparent",
+                color: tab === "admin" ? "white" : NAVY,
+              }}
+            >
+              <Landmark size={15} /> NSN Admin
             </button>
             <button
               onClick={() => setTab("softskills")}
@@ -1273,8 +1012,10 @@ export default function App() {
           className="rounded-2xl overflow-hidden shadow-xl border"
           style={{ borderColor: "#E5E1D6", height: "640px" }}
         >
-          {tab === "test" ? (
-            <PersonalityTest />
+          {tab === "business" ? (
+            <NSNBusiness />
+          ) : tab === "admin" ? (
+            <NSNAdmin />
           ) : tab === "softskills" ? (
             <SoftSkillsCourse />
           ) : tab === "motivation" ? (
