@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import {
   MessageCircle, CheckCircle2, Circle, ChevronRight, Check,
-  ClipboardList, RotateCcw, Zap, ListChecks, ArrowLeft, Star, TrendingDown,
+  RotateCcw, Zap, ListChecks, ArrowLeft, Star, TrendingDown,
   GraduationCap, Quote, Shuffle,
-  Globe, Palette, Server, Megaphone, FileText, Receipt, Landmark, Info, CalendarCheck, Briefcase,
+  Globe, Palette, Receipt, Landmark, Briefcase,
 } from "lucide-react";
 
 const NAVY = "#1A1A2E";
@@ -821,61 +821,225 @@ function MotivationTab() {
 }
 
 // ---------- NSN Business & NSN Admin : annuaire de services ----------
-// Numéro de contact WhatsApp pour les demandes de service — à remplacer par le vrai numéro pro.
-const NSN_CONTACT_NUMBER = "221000000000";
+const NSN_CONTACT_NUMBER = "221778370001";
 
 function waLink(service) {
-  const text = encodeURIComponent(`Bonjour, je suis intéressé(e) par le service : ${service}.`);
+  const text = encodeURIComponent(`Bonjour, je suis intéressé(e) par : ${service}.`);
   return `https://wa.me/${NSN_CONTACT_NUMBER}?text=${text}`;
 }
 
-const BUSINESS_SERVICES = [
-  { icon: Globe, title: "Création de site web", desc: "Un site professionnel sur mesure, prêt à l'emploi en quelques jours." },
-  { icon: Palette, title: "Logo", desc: "Une identité visuelle forte, pensée pour ta marque." },
-  { icon: Server, title: "Hébergement", desc: "Ton site en ligne, disponible 24h/24, sans souci technique." },
-  { icon: Megaphone, title: "Marketing digital", desc: "Réseaux sociaux, publicité, visibilité — on s'occupe de tout." },
-  { icon: FileText, title: "Devis", desc: "Demande un devis personnalisé pour ton projet." },
-  { icon: Receipt, title: "Factures", desc: "Génère et gère tes factures professionnelles." },
+const BUSINESS_CATEGORIES = [
+  {
+    icon: Globe,
+    title: "Création de site web",
+    intro: "Le prix dépend de la complexité et du nombre de pages.",
+    offers: [
+      { name: "Site vitrine simple", detail: "1 à 3 pages, présentation de ton activité", price: "50 000 – 75 000 FCFA" },
+      { name: "Site vitrine professionnel", detail: "5 à 8 pages, design sur mesure", price: "100 000 – 150 000 FCFA" },
+      { name: "Site e-commerce", detail: "Boutique en ligne, paiement intégré", price: "200 000 – 350 000 FCFA" },
+    ],
+  },
+  {
+    icon: Palette,
+    title: "Logo",
+    intro: "Le prix dépend du nombre de propositions et de la charte graphique.",
+    offers: [
+      { name: "Logo simple", detail: "1 concept, formats de base (PNG, JPG)", price: "15 000 FCFA" },
+      { name: "Logo professionnel", detail: "3 concepts au choix, couleurs déclinées", price: "30 000 FCFA" },
+      { name: "Identité visuelle complète", detail: "Logo + charte graphique + déclinaisons réseaux sociaux", price: "50 000 FCFA" },
+    ],
+  },
+  {
+    icon: Receipt,
+    title: "Génération de factures",
+    intro: "Le prix dépend du niveau d'automatisation de l'application.",
+    offers: [
+      { name: "Générateur simple", detail: "Mono-utilisateur, export PDF", price: "25 000 FCFA" },
+      { name: "Générateur avancé", detail: "Multi-produits, calculs automatiques, export Excel", price: "50 000 FCFA" },
+      { name: "Application complète", detail: "Multi-utilisateurs, suivi clients, tableau de bord", price: "100 000 FCFA" },
+    ],
+  },
 ];
 
-const ADMIN_SERVICES = [
-  { icon: Landmark, title: "Démarches administratives", desc: "On t'accompagne dans tes démarches, pas à pas." },
-  { icon: ClipboardList, title: "Formulaires", desc: "Remplis tes formulaires sans stress, avec de l'aide." },
-  { icon: Info, title: "Explications", desc: "Comprends chaque étape en langage simple." },
-  { icon: CalendarCheck, title: "Prise de rendez-vous", desc: "Réserve un créneau avec un conseiller." },
+const DEMARCHES = [
+  {
+    icon: Landmark,
+    title: "Carte Nationale d'Identité (CNI biométrique CEDEAO)",
+    where: "Commissariat de police, brigade de gendarmerie, ou préfecture/sous-préfecture de ton domicile. À l'étranger : consulats du Sénégal (Paris, Madrid, Milan, New York, Abidjan...).",
+    pieces: "Ancienne CNI ou extrait de naissance de moins de 3 mois, certificat de nationalité en cas de doute, copie de la CNI d'un parent pour un mineur.",
+    cost: "500 FCFA (première demande ou renouvellement) — 10 000 FCFA en cas de perte ou de vol. Duplicata gratuit en cas de détérioration.",
+    delay: "Environ 2 semaines, délai variable selon l'affluence.",
+  },
+  {
+    icon: Landmark,
+    title: "Passeport biométrique",
+    where: "Commissariat de police de ton domicile (rendez-vous obligatoire à Dakar). À l'étranger : ambassade ou consulat du Sénégal.",
+    pieces: "CNI biométrique CEDEAO en cours de validité (original + copie), justificatif de profession ou certificat de scolarité, quittance de paiement.",
+    cost: "20 000 FCFA (adulte) — 10 000 FCFA (élève/étudiant sur justificatif).",
+    delay: "Délai officiel : 30 jours ouvrables. En pratique à Dakar : souvent 3 à 8 semaines.",
+  },
+  {
+    icon: Landmark,
+    title: "Extrait de naissance",
+    where: "Centre d'état civil (mairie) du lieu de naissance. Pour une naissance à l'étranger : ministère des Affaires étrangères ou représentation diplomatique du Sénégal.",
+    pieces: "CNI du demandeur, informations sur l'acte d'origine (numéro, année, centre d'enregistrement).",
+    cost: "Environ 150 à 500 FCFA selon les communes.",
+    delay: "Généralement quelques jours.",
+  },
+  {
+    icon: Landmark,
+    title: "Casier judiciaire (extrait du bulletin n°3)",
+    where: "Greffe du tribunal régional du lieu de naissance. Pour les Sénégalais nés à l'étranger : greffe de la Cour d'Appel de Dakar.",
+    pieces: "Extrait d'acte de naissance ou copie certifiée de la CNI.",
+    cost: "Environ 200 FCFA (timbre fiscal).",
+    delay: "Obtention rapide ; le document reste valable 3 mois.",
+  },
+  {
+    icon: Briefcase,
+    title: "Création d'entreprise (NINEA + Registre du Commerce)",
+    where: "Bureau d'Appui à la Création d'Entreprise (BCE) de l'APIX, Dakar (antennes aussi à Saint-Louis, Ziguinchor, Touba, Kaolack, Tambacounda, Saly).",
+    pieces: "Copie de la CNI (ou passeport pour les étrangers), certificat de résidence, casier judiciaire de moins de 3 mois (ou déclaration sur l'honneur disponible à l'APIX), timbres fiscaux.",
+    cost: "Entreprise individuelle : environ 16 000 FCFA (sans nom commercial) à 26 000 FCFA (avec nom commercial). SARL/SA : montants plus élevés selon le capital.",
+    delay: "24 à 48 heures pour un dossier complet.",
+  },
+  {
+    icon: Landmark,
+    title: "Permis de conduire",
+    where: "Inscription en auto-école agréée, puis examen et délivrance via la Direction Régionale des Transports Terrestres (DRTT) de ta région.",
+    pieces: "4 photos d'identité, pièce d'identité, certificat médical d'aptitude, certificat de résidence, timbres fiscaux.",
+    cost: "Timbres : environ 10 000 FCFA. Frais d'examen : 10 000 FCFA (poids lourd) à 20 000 FCFA (véhicule léger), hors frais d'auto-école (variables).",
+    delay: "Environ 6 à 8 semaines au total (formation, examen, délivrance).",
+  },
+  {
+    icon: Landmark,
+    title: "Carte grise (certificat d'immatriculation)",
+    where: "Bureau régional des transports routiers dont dépend ton domicile.",
+    pieces: "Facture d'achat ou acte de vente, certificat de dédouanement (véhicule importé), pièce d'identité du propriétaire, visite technique du véhicule.",
+    cost: "Variable selon la puissance fiscale du véhicule — en moyenne entre 50 000 et 200 000 FCFA (hors frais de dédouanement pour un véhicule importé).",
+    delay: "Quelques jours ouvrés après dépôt du dossier complet.",
+  },
 ];
 
-function ServiceDirectory({ title, subtitle, services }) {
+function NSNDemarches() {
+  const [open, setOpen] = useState(null);
+
   return (
     <div className="h-full overflow-y-auto p-6 sm:p-8" style={{ backgroundColor: NAVY }}>
       <div className="text-xs uppercase tracking-widest mb-1" style={{ color: GOLD }}>
-        {title}
+        NSN Démarches
       </div>
-      <div className="text-white text-lg font-semibold mb-1">{subtitle}</div>
-      <div className="text-white/40 text-xs mb-5">
-        Choisis un service pour être mis en relation directement sur WhatsApp.
+      <div className="text-white text-lg font-semibold mb-1">
+        Le guide des démarches administratives les plus courantes au Sénégal
       </div>
-      <div className="grid sm:grid-cols-2 gap-3">
-        {services.map((s, i) => {
-          const Icon = s.icon;
+      <div className="text-white/40 text-xs mb-6">
+        Informations basées sur les sources officielles (service-public.gouv.sn, senegalservices.sn, APIX) — vérifie toujours les montants et délais en vigueur, ils peuvent évoluer.
+      </div>
+
+      <div className="flex flex-col gap-2.5 mb-6">
+        {DEMARCHES.map((d, i) => {
+          const Icon = d.icon;
+          const isOpen = open === i;
           return (
-            <a
-              key={i}
-              href={waLink(s.title)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex flex-col items-start gap-2 p-4 rounded-xl border text-left transition-colors hover:border-[#C9A84C]"
-              style={{ backgroundColor: "#22233A", borderColor: "#33344F" }}
-            >
-              <div className="w-9 h-9 rounded-full flex items-center justify-center" style={{ backgroundColor: GOLD }}>
-                <Icon size={16} color={NAVY} />
+            <div key={i} className="rounded-xl border overflow-hidden" style={{ backgroundColor: "#22233A", borderColor: "#33344F" }}>
+              <button
+                onClick={() => setOpen(isOpen ? null : i)}
+                className="w-full flex items-center gap-3 p-4 text-left"
+              >
+                <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: GOLD }}>
+                  <Icon size={15} color={NAVY} />
+                </div>
+                <div className="text-white font-semibold text-sm flex-1">{d.title}</div>
+                <ChevronRight size={16} className="text-white/40 transition-transform" style={{ transform: isOpen ? "rotate(90deg)" : "none" }} />
+              </button>
+              {isOpen && (
+                <div className="px-4 pb-4 flex flex-col gap-2.5 text-xs">
+                  <div>
+                    <span className="font-semibold" style={{ color: GOLD }}>Où s'adresser : </span>
+                    <span className="text-white/70">{d.where}</span>
+                  </div>
+                  <div>
+                    <span className="font-semibold" style={{ color: GOLD }}>Pièces à fournir : </span>
+                    <span className="text-white/70">{d.pieces}</span>
+                  </div>
+                  <div>
+                    <span className="font-semibold" style={{ color: GOLD }}>Coût : </span>
+                    <span className="text-white/70">{d.cost}</span>
+                  </div>
+                  <div>
+                    <span className="font-semibold" style={{ color: GOLD }}>Délai : </span>
+                    <span className="text-white/70">{d.delay}</span>
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      <a
+        href={waLink("Aide personnalisée pour une démarche administrative")}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center justify-between gap-3 p-4 rounded-xl border transition-colors hover:border-[#C9A84C]"
+        style={{ backgroundColor: "#22233A", borderColor: "#33344F" }}
+      >
+        <div>
+          <div className="text-white font-semibold text-sm">Besoin d'être accompagné(e) pas à pas ?</div>
+          <div className="text-white/50 text-xs mt-0.5">On t'aide à préparer ton dossier et à comprendre chaque étape.</div>
+        </div>
+        <span className="text-xs font-medium shrink-0" style={{ color: GOLD }}>
+          Demander de l'aide →
+        </span>
+      </a>
+    </div>
+  );
+}
+
+function NSNBusiness() {
+  return (
+    <div className="h-full overflow-y-auto p-6 sm:p-8" style={{ backgroundColor: NAVY }}>
+      <div className="text-xs uppercase tracking-widest mb-1" style={{ color: GOLD }}>
+        NSN Business
+      </div>
+      <div className="text-white text-lg font-semibold mb-1">
+        Des services professionnels pour lancer et développer ton activité
+      </div>
+      <div className="text-white/40 text-xs mb-6">
+        Choisis une offre pour être mis en relation directement sur WhatsApp, avec le prix déjà indiqué.
+      </div>
+
+      <div className="flex flex-col gap-7">
+        {BUSINESS_CATEGORIES.map((cat, ci) => {
+          const Icon = cat.icon;
+          return (
+            <div key={ci}>
+              <div className="flex items-center gap-2.5 mb-1">
+                <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: GOLD }}>
+                  <Icon size={15} color={NAVY} />
+                </div>
+                <div className="text-white font-semibold text-sm">{cat.title}</div>
               </div>
-              <div className="text-white font-semibold text-sm">{s.title}</div>
-              <div className="text-white/50 text-xs leading-relaxed">{s.desc}</div>
-              <span className="text-xs font-medium mt-1" style={{ color: GOLD }}>
-                Demander ce service →
-              </span>
-            </a>
+              <div className="text-white/40 text-xs mb-3 ml-10">{cat.intro}</div>
+              <div className="grid sm:grid-cols-3 gap-3">
+                {cat.offers.map((o, oi) => (
+                  <a
+                    key={oi}
+                    href={waLink(`${cat.title} — ${o.name} (${o.price})`)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex flex-col gap-1.5 p-4 rounded-xl border text-left transition-colors hover:border-[#C9A84C]"
+                    style={{ backgroundColor: "#22233A", borderColor: "#33344F" }}
+                  >
+                    <div className="text-white font-semibold text-sm">{o.name}</div>
+                    <div className="text-white/50 text-xs leading-relaxed">{o.detail}</div>
+                    <div className="text-sm font-semibold mt-1" style={{ color: GOLD }}>{o.price}</div>
+                    <span className="text-xs font-medium mt-1" style={{ color: GOLD }}>
+                      Demander cette offre →
+                    </span>
+                  </a>
+                ))}
+              </div>
+            </div>
           );
         })}
       </div>
@@ -883,24 +1047,8 @@ function ServiceDirectory({ title, subtitle, services }) {
   );
 }
 
-function NSNBusiness() {
-  return (
-    <ServiceDirectory
-      title="NSN Business"
-      subtitle="Des services professionnels pour lancer et développer ton activité"
-      services={BUSINESS_SERVICES}
-    />
-  );
-}
-
 function NSNAdmin() {
-  return (
-    <ServiceDirectory
-      title="NSN Admin"
-      subtitle="De l'aide pour tes démarches administratives, sans stress"
-      services={ADMIN_SERVICES}
-    />
-  );
+  return <NSNDemarches />;
 }
 
 export default function App() {
@@ -928,7 +1076,7 @@ export default function App() {
 
   useEffect(() => {
     if (!progressLoaded) return;
-    window.storage
+    storage
       .set("nsn-cap:whatsapp-progress", JSON.stringify({ completed, moduleIndex }))
       .catch(() => {});
   }, [completed, moduleIndex, progressLoaded]);
@@ -982,7 +1130,7 @@ export default function App() {
                 color: tab === "admin" ? "white" : NAVY,
               }}
             >
-              <Landmark size={15} /> NSN Admin
+              <Landmark size={15} /> NSN Démarches
             </button>
             <button
               onClick={() => setTab("softskills")}
