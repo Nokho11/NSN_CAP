@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { LogIn, UserPlus, LogOut, Lock, CheckCircle2, Clock } from "lucide-react";
+import { LogIn, UserPlus, LogOut, Lock, CheckCircle2, Clock, Eye, EyeOff } from "lucide-react";
 import { signup, login, fetchMe } from "./api.js";
 import storage from "./storage.js";
 
@@ -12,6 +12,7 @@ export default function Auth() {
   const [mode, setMode] = useState("login"); // 'login' | 'signup'
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [companyName, setCompanyName] = useState("");
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -149,16 +150,26 @@ export default function Auth() {
           className="text-sm px-3 py-2.5 rounded-lg outline-none"
           style={{ backgroundColor: "#22233A", color: "white", border: "1px solid #33344F" }}
         />
-        <input
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          type="password"
-          required
-          minLength={6}
-          placeholder="Mot de passe (6 caractères min.)"
-          className="text-sm px-3 py-2.5 rounded-lg outline-none"
-          style={{ backgroundColor: "#22233A", color: "white", border: "1px solid #33344F" }}
-        />
+        <div className="relative">
+          <input
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            type={showPassword ? "text" : "password"}
+            required
+            minLength={6}
+            placeholder="Mot de passe (6 caractères min.)"
+            className="w-full text-sm pl-3 pr-10 py-2.5 rounded-lg outline-none"
+            style={{ backgroundColor: "#22233A", color: "white", border: "1px solid #33344F" }}
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword((v) => !v)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/70"
+            aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+          >
+            {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+          </button>
+        </div>
 
         <button
           type="submit"
