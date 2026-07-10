@@ -1,0 +1,11 @@
+{
+  "name": "nsn-cap-auth-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Backend d'authentification NSN CAP - comptes, mots de passe, acces personnalise aux interfaces (ex. facturation).",
+  "engines": { "node": ">=18" },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2"
+  }
+}

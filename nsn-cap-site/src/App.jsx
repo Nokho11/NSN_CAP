@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import storage from "./storage.js";
+import Auth from "./Auth.jsx";
 import {
   MessageCircle, CheckCircle2, Circle, ChevronRight, Check,
   ClipboardList, RotateCcw, Zap, ListChecks, ArrowLeft, Star, TrendingDown,
   GraduationCap, Quote, Shuffle,
-  Globe, Palette, Server, Megaphone, FileText, Receipt, Landmark, Info, CalendarCheck, Briefcase,
+  Globe, Palette, Receipt, Landmark, Info, CalendarCheck, Briefcase, User,
 } from "lucide-react";
 
 const NAVY = "#1A1A2E";
@@ -822,21 +823,44 @@ function MotivationTab() {
 }
 
 // ---------- NSN Business & NSN Admin : annuaire de services ----------
-// Numéro de contact WhatsApp pour les demandes de service — à remplacer par le vrai numéro pro.
-const NSN_CONTACT_NUMBER = "221000000000";
+const NSN_CONTACT_NUMBER = "221778370001";
 
 function waLink(service) {
-  const text = encodeURIComponent(`Bonjour, je suis intéressé(e) par le service : ${service}.`);
+  const text = encodeURIComponent(`Bonjour, je suis intéressé(e) par : ${service}.`);
   return `https://wa.me/${NSN_CONTACT_NUMBER}?text=${text}`;
 }
 
-const BUSINESS_SERVICES = [
-  { icon: Globe, title: "Création de site web", desc: "Un site professionnel sur mesure, prêt à l'emploi en quelques jours." },
-  { icon: Palette, title: "Logo", desc: "Une identité visuelle forte, pensée pour ta marque." },
-  { icon: Server, title: "Hébergement", desc: "Ton site en ligne, disponible 24h/24, sans souci technique." },
-  { icon: Megaphone, title: "Marketing digital", desc: "Réseaux sociaux, publicité, visibilité — on s'occupe de tout." },
-  { icon: FileText, title: "Devis", desc: "Demande un devis personnalisé pour ton projet." },
-  { icon: Receipt, title: "Factures", desc: "Génère et gère tes factures professionnelles." },
+const BUSINESS_CATEGORIES = [
+  {
+    icon: Globe,
+    title: "Création de site web",
+    intro: "Le prix dépend de la complexité et du nombre de pages.",
+    offers: [
+      { name: "Site vitrine simple", detail: "1 à 3 pages, présentation de ton activité", price: "50 000 – 75 000 FCFA" },
+      { name: "Site vitrine professionnel", detail: "5 à 8 pages, design sur mesure", price: "100 000 – 150 000 FCFA" },
+      { name: "Site e-commerce", detail: "Boutique en ligne, paiement intégré", price: "200 000 – 350 000 FCFA" },
+    ],
+  },
+  {
+    icon: Palette,
+    title: "Logo",
+    intro: "Le prix dépend du nombre de propositions et de la charte graphique.",
+    offers: [
+      { name: "Logo simple", detail: "1 concept, formats de base (PNG, JPG)", price: "15 000 FCFA" },
+      { name: "Logo professionnel", detail: "3 concepts au choix, couleurs déclinées", price: "30 000 FCFA" },
+      { name: "Identité visuelle complète", detail: "Logo + charte graphique + déclinaisons réseaux sociaux", price: "50 000 FCFA" },
+    ],
+  },
+  {
+    icon: Receipt,
+    title: "Génération de factures",
+    intro: "Le prix dépend du niveau d'automatisation de l'application.",
+    offers: [
+      { name: "Générateur simple", detail: "Mono-utilisateur, export PDF", price: "25 000 FCFA" },
+      { name: "Générateur avancé", detail: "Multi-produits, calculs automatiques, export Excel", price: "50 000 FCFA" },
+      { name: "Application complète", detail: "Multi-utilisateurs, suivi clients, tableau de bord", price: "100 000 FCFA" },
+    ],
+  },
 ];
 
 const ADMIN_SERVICES = [
@@ -886,11 +910,53 @@ function ServiceDirectory({ title, subtitle, services }) {
 
 function NSNBusiness() {
   return (
-    <ServiceDirectory
-      title="NSN Business"
-      subtitle="Des services professionnels pour lancer et développer ton activité"
-      services={BUSINESS_SERVICES}
-    />
+    <div className="h-full overflow-y-auto p-6 sm:p-8" style={{ backgroundColor: NAVY }}>
+      <div className="text-xs uppercase tracking-widest mb-1" style={{ color: GOLD }}>
+        NSN Business
+      </div>
+      <div className="text-white text-lg font-semibold mb-1">
+        Des services professionnels pour lancer et développer ton activité
+      </div>
+      <div className="text-white/40 text-xs mb-6">
+        Choisis une offre pour être mis en relation directement sur WhatsApp, avec le prix déjà indiqué.
+      </div>
+
+      <div className="flex flex-col gap-7">
+        {BUSINESS_CATEGORIES.map((cat, ci) => {
+          const Icon = cat.icon;
+          return (
+            <div key={ci}>
+              <div className="flex items-center gap-2.5 mb-1">
+                <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: GOLD }}>
+                  <Icon size={15} color={NAVY} />
+                </div>
+                <div className="text-white font-semibold text-sm">{cat.title}</div>
+              </div>
+              <div className="text-white/40 text-xs mb-3 ml-10">{cat.intro}</div>
+              <div className="grid sm:grid-cols-3 gap-3">
+                {cat.offers.map((o, oi) => (
+                  <a
+                    key={oi}
+                    href={waLink(`${cat.title} — ${o.name} (${o.price})`)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex flex-col gap-1.5 p-4 rounded-xl border text-left transition-colors hover:border-[#C9A84C]"
+                    style={{ backgroundColor: "#22233A", borderColor: "#33344F" }}
+                  >
+                    <div className="text-white font-semibold text-sm">{o.name}</div>
+                    <div className="text-white/50 text-xs leading-relaxed">{o.detail}</div>
+                    <div className="text-sm font-semibold mt-1" style={{ color: GOLD }}>{o.price}</div>
+                    <span className="text-xs font-medium mt-1" style={{ color: GOLD }}>
+                      Demander cette offre →
+                    </span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
   );
 }
 
@@ -986,6 +1052,16 @@ export default function App() {
               <Landmark size={15} /> NSN Admin
             </button>
             <button
+              onClick={() => setTab("account")}
+              className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium transition-colors"
+              style={{
+                backgroundColor: tab === "account" ? NAVY : "transparent",
+                color: tab === "account" ? "white" : NAVY,
+              }}
+            >
+              <User size={15} /> Mon Compte
+            </button>
+            <button
               onClick={() => setTab("softskills")}
               className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium transition-colors"
               style={{
@@ -1016,6 +1092,8 @@ export default function App() {
             <NSNBusiness />
           ) : tab === "admin" ? (
             <NSNAdmin />
+          ) : tab === "account" ? (
+            <Auth />
           ) : tab === "softskills" ? (
             <SoftSkillsCourse />
           ) : tab === "motivation" ? (
