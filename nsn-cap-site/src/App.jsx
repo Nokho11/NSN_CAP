@@ -1125,26 +1125,6 @@ export default function App() {
               <Briefcase size={15} /> NSN Business
             </button>
             <button
-              onClick={() => setTab("admin")}
-              className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium transition-colors"
-              style={{
-                backgroundColor: tab === "admin" ? NAVY : "transparent",
-                color: tab === "admin" ? "white" : NAVY,
-              }}
-            >
-              <Landmark size={15} /> NSN Démarches
-            </button>
-            <button
-              onClick={() => setTab("account")}
-              className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium transition-colors"
-              style={{
-                backgroundColor: tab === "account" ? NAVY : "transparent",
-                color: tab === "account" ? "white" : NAVY,
-              }}
-            >
-              <User size={15} /> Mon Compte
-            </button>
-            <button
               onClick={() => setTab("softskills")}
               className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium transition-colors"
               style={{
@@ -1163,6 +1143,26 @@ export default function App() {
               }}
             >
               <MessageCircle size={15} /> Simulateur WhatsApp
+            </button>
+            <button
+              onClick={() => setTab("admin")}
+              className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium transition-colors"
+              style={{
+                backgroundColor: tab === "admin" ? NAVY : "transparent",
+                color: tab === "admin" ? "white" : NAVY,
+              }}
+            >
+              <Landmark size={15} /> NSN Démarches
+            </button>
+            <button
+              onClick={() => setTab("account")}
+              className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium transition-colors"
+              style={{
+                backgroundColor: tab === "account" ? NAVY : "transparent",
+                color: tab === "account" ? "white" : NAVY,
+              }}
+            >
+              <User size={15} /> Mon Compte
             </button>
           </div>
         </div>
